@@ -10,6 +10,8 @@ public class Game {
 	private String turn = "player1";
 	private double p1pts = 0;
 	private double p2pts = 0;
+	private int[] p1StartCoords = new int[2];
+	private int[] p2StartCoords = new int[2];
 	
 	Random random = new Random();
 	
@@ -17,6 +19,7 @@ public class Game {
 	public Game(char... chars) {
 		initColors(chars);
 		this.gameboard = initGameboard(45,40);
+		
 	}
 	
 	public void playTurn(char color) {
@@ -217,6 +220,16 @@ public class Game {
 		return this.colors[randomIndex];
 	}
 	
+	public void setP1StartCoords(int p1StartX, int p1StartY) {
+		this.p1StartCoords[0] = p1StartX;
+		this.p1StartCoords[1] = p1StartY;
+	}
+	public void setP2StartCoords(int p2StartX, int p2StartY) {
+		this.p2StartCoords[0] = p2StartX;
+		this.p2StartCoords[1] = p2StartY;
+	}
+	
+	
 	public String getTurn() {
 		return this.turn;
 	}
@@ -231,6 +244,13 @@ public class Game {
 	public char[] getColors() {
 		return this.colors;
 	}
+	
+	public char getPlayer1Color() {
+		return this.gameboard[this.p1StartCoords[0]][this.p1StartCoords[1]];
+	}
+	public char getPlayer2Color() {
+		return this.gameboard[this.p2StartCoords[0]][this.p2StartCoords[1]];
+	}	
 	
 	private class Dot {
 		private int i;

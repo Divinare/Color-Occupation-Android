@@ -34,6 +34,7 @@ public class Main extends ActionBarActivity {
                 new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT,
                                            LayoutParams.FILL_PARENT);
         addContentView(drawer, params);
+        initGame();
         initPlayerButtons();
         setColors();
         
@@ -50,6 +51,11 @@ public class Main extends ActionBarActivity {
         for(int i = 0; i < 5; i++) {
         	setOnClickListeners(buttonsP2[i], game.getColors()[i]);
         }       
+    }
+    
+    private void initGame() {
+    	game.setP1StartCoords(game.getGameboard().length-1, game.getGameboard()[0].length-1);
+    	game.setP2StartCoords(0, 0);
     }
     
     private void setOnClickListeners(Button button, final char c) {
@@ -76,19 +82,23 @@ public class Main extends ActionBarActivity {
   
     private void showPlayer1Buttons(char previouslyPressedButton) {
     	for(int i = 0; i < 5; i++) {
-    		showOrHidePlayerButton(buttonsP1[i], previouslyPressedButton, game.getColors()[i]);
+    		showOrHidePlayerButton(buttonsP1[i], game.getPlayer1Color(), previouslyPressedButton, game.getColors()[i]);
     	}
     }
     
     private void showPlayer2Buttons(char previouslyPressedButton) {
     	for(int i = 0; i < 5; i++) {
-    		showOrHidePlayerButton(buttonsP2[i], previouslyPressedButton, game.getColors()[i]);
+    		showOrHidePlayerButton(buttonsP2[i], game.getPlayer2Color(), previouslyPressedButton, game.getColors()[i]);
     	}
     }
     
-    private void showOrHidePlayerButton(Button button, char previouslyPressedButton, char buttonColor) {
+    private void showOrHidePlayerButton(Button button, char playersCurrentColor, char previouslyPressedButton, char buttonColor) {
     	button.setVisibility(View.VISIBLE);
     	if(previouslyPressedButton == buttonColor) {
+    		button.setVisibility(View.INVISIBLE);
+    	}
+    	/* Hide button that has been previously pressed*/
+    	if(buttonColor == playersCurrentColor) {
     		button.setVisibility(View.INVISIBLE);
     	}
     }
