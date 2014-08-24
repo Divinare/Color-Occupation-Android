@@ -59,21 +59,35 @@ public class Drawer extends View {
 		this.purple = "#FF00FF";
 		this.blue = "#0000FF";
 	}
+	
+	public String getColor(char c) {
+		if(c == 'r') {
+			return this.red;
+		} else if(c == 'b') {
+			return this.blue;
+		} else if(c == 'g') {
+			return this.green;
+		} else if(c == 'y') {
+			return this.yellow;
+		} else {
+			return this.purple;
+		}
+	}
 
-	public String getRed() {
-		return this.red;
-	}
-	public String getGreen(){
-		return this.green;
-	}
-	public String getYellow() {
-		return this.yellow;
-	}
-	public String getBlue() {
-		return this.blue;
-	}
-	public String getTeal() {
-		return this.purple;
-	}
+//	public String getRed() {
+//		return this.red;
+//	}
+//	public String getBlue() {
+//		return this.blue;
+//	}
+//	public String getGreen(){
+//		return this.green;
+//	}
+//	public String getYellow() {
+//		return this.yellow;
+//	}
+//	public String getPurple() {
+//		return this.purple;
+//	}
 	
 }

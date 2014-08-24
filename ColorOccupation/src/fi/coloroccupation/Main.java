@@ -21,7 +21,8 @@ public class Main extends ActionBarActivity {
 	
 	private Game game = new Game('r', 'b', 'g', 'y', 'p');
 	private Drawer drawer;
-	
+	private Button[] buttonsP1;
+	private Button[] buttonsP2;
 	
 	
     @Override
@@ -33,6 +34,7 @@ public class Main extends ActionBarActivity {
                 new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT,
                                            LayoutParams.FILL_PARENT);
         addContentView(drawer, params);
+        initPlayerButtons();
         setColors();
         
         View view = this.getWindow().getDecorView();
@@ -41,19 +43,13 @@ public class Main extends ActionBarActivity {
         drawer.setGameboard(game.getGameboard());
         drawer.invalidate();
         
-        setOnClickListeners((Button)findViewById(R.id.p1b1), 'r');
-        setOnClickListeners((Button)findViewById(R.id.p1b2), 'b');
-        setOnClickListeners((Button)findViewById(R.id.p1b3), 'y');
-        setOnClickListeners((Button)findViewById(R.id.p1b4), 'g');
-        setOnClickListeners((Button)findViewById(R.id.p1b5), 'p');
         
-        setOnClickListeners((Button)findViewById(R.id.p2b1), 'r');
-        setOnClickListeners((Button)findViewById(R.id.p2b2), 'b');
-        setOnClickListeners((Button)findViewById(R.id.p2b3), 'y');
-        setOnClickListeners((Button)findViewById(R.id.p2b4), 'g');
-        setOnClickListeners((Button)findViewById(R.id.p2b5), 'p');
-        
-        
+        for(int i = 0; i < 5; i++) {
+        	setOnClickListeners(buttonsP1[i], game.getColors()[i]);
+        }
+        for(int i = 0; i < 5; i++) {
+        	setOnClickListeners(buttonsP2[i], game.getColors()[i]);
+        }       
     }
     
     private void setOnClickListeners(Button button, final char c) {
@@ -78,68 +74,61 @@ public class Main extends ActionBarActivity {
      	});
     }
     
+    
+    
   
-    private void showPlayer1Buttons(char c) {
-    	findViewById(R.id.p1b1).setVisibility(View.VISIBLE);
-    	findViewById(R.id.p1b2).setVisibility(View.VISIBLE);
-    	findViewById(R.id.p1b3).setVisibility(View.VISIBLE);
-    	findViewById(R.id.p1b4).setVisibility(View.VISIBLE);
-    	findViewById(R.id.p1b5).setVisibility(View.VISIBLE);
-    	if (c == 'r') {
-    		findViewById(R.id.p1b1).setVisibility(View.INVISIBLE);
+    private void showPlayer1Buttons(char previouslyPressedButton) {
+    	for(int i = 0; i < 5; i++) {
+    		showOrHidePlayerButton(buttonsP1[i], previouslyPressedButton, game.getColors()[i]);
     	}
-    	if (c == 'b') {
-    		findViewById(R.id.p1b2).setVisibility(View.INVISIBLE);
-    	}
-    	if (c == 'y') {
-    		findViewById(R.id.p1b3).setVisibility(View.INVISIBLE);
-    	}
-    	if (c == 'g') {
-    		findViewById(R.id.p1b4).setVisibility(View.INVISIBLE);
-    	}
-    	if (c == 'p') {
-    		findViewById(R.id.p1b5).setVisibility(View.INVISIBLE);
-    	}
+//    	showOrHidePlayerButton(findViewById(R.id.p1b1), previouslyPressedButton, 'r');
+//    	showOrHidePlayerButton(findViewById(R.id.p1b2), previouslyPressedButton, 'b');
+//    	showOrHidePlayerButton(findViewById(R.id.p1b3), previouslyPressedButton, 'y');
+//    	showOrHidePlayerButton(findViewById(R.id.p1b4), previouslyPressedButton, 'g');
+//    	showOrHidePlayerButton(findViewById(R.id.p1b5), previouslyPressedButton, 'p');
     }
     
-    private void showPlayer2Buttons(char c) {
-    	findViewById(R.id.p2b1).setVisibility(View.VISIBLE);
-    	findViewById(R.id.p2b2).setVisibility(View.VISIBLE);
-    	findViewById(R.id.p2b3).setVisibility(View.VISIBLE);
-    	findViewById(R.id.p2b4).setVisibility(View.VISIBLE);
-    	findViewById(R.id.p2b5).setVisibility(View.VISIBLE);
-    	if (c == 'r') {
-    		findViewById(R.id.p2b1).setVisibility(View.INVISIBLE);
+    private void showPlayer2Buttons(char previouslyPressedButton) {
+    	for(int i = 0; i < 5; i++) {
+    		showOrHidePlayerButton(buttonsP2[i], previouslyPressedButton, game.getColors()[i]);
     	}
-    	if (c == 'b') {
-    		findViewById(R.id.p2b2).setVisibility(View.INVISIBLE);
-    	}
-    	if (c == 'y') {
-    		findViewById(R.id.p2b3).setVisibility(View.INVISIBLE);
-    	}
-    	if (c == 'g') {
-    		findViewById(R.id.p2b4).setVisibility(View.INVISIBLE);
-    	}
-    	if (c == 'p') {
-    		findViewById(R.id.p2b5).setVisibility(View.INVISIBLE);
-    	}
+//    	showOrHidePlayerButton(findViewById(R.id.p2b1), previouslyPressedButton, 'r');
+//    	showOrHidePlayerButton(findViewById(R.id.p2b2), previouslyPressedButton, 'b');
+//    	showOrHidePlayerButton(findViewById(R.id.p2b3), previouslyPressedButton, 'y');
+//    	showOrHidePlayerButton(findViewById(R.id.p2b4), previouslyPressedButton, 'g');
+//    	showOrHidePlayerButton(findViewById(R.id.p2b5), previouslyPressedButton, 'p');
     	
     }
     
+    private void showOrHidePlayerButton(Button button, char previouslyPressedButton, char buttonColor) {
+    	button.setVisibility(View.VISIBLE);
+    	if(previouslyPressedButton == buttonColor) {
+    		button.setVisibility(View.INVISIBLE);
+    	}
+    }
+
+       
     private void hidePlayer1Buttons() {
-    	findViewById(R.id.p1b1).setVisibility(View.INVISIBLE);
-    	findViewById(R.id.p1b2).setVisibility(View.INVISIBLE);
-    	findViewById(R.id.p1b3).setVisibility(View.INVISIBLE);
-    	findViewById(R.id.p1b4).setVisibility(View.INVISIBLE);
-    	findViewById(R.id.p1b5).setVisibility(View.INVISIBLE);
+    	for(int i = 0; i < 5; i++) {
+    		buttonsP1[i].setVisibility(View.INVISIBLE);
+    	}
+    	
+//    	findViewById(R.id.p1b1).setVisibility(View.INVISIBLE);
+//    	findViewById(R.id.p1b2).setVisibility(View.INVISIBLE);
+//    	findViewById(R.id.p1b3).setVisibility(View.INVISIBLE);
+//    	findViewById(R.id.p1b4).setVisibility(View.INVISIBLE);
+//    	findViewById(R.id.p1b5).setVisibility(View.INVISIBLE);
     }
     
     private void hidePlayer2Buttons() {
-    	findViewById(R.id.p2b1).setVisibility(View.INVISIBLE);
-    	findViewById(R.id.p2b2).setVisibility(View.INVISIBLE);
-    	findViewById(R.id.p2b3).setVisibility(View.INVISIBLE);
-    	findViewById(R.id.p2b4).setVisibility(View.INVISIBLE);
-    	findViewById(R.id.p2b5).setVisibility(View.INVISIBLE);
+    	for(int i = 0; i < 5; i++) {
+    		buttonsP2[i].setVisibility(View.INVISIBLE);
+    	}
+//    	findViewById(R.id.p2b1).setVisibility(View.INVISIBLE);
+//    	findViewById(R.id.p2b2).setVisibility(View.INVISIBLE);
+//    	findViewById(R.id.p2b3).setVisibility(View.INVISIBLE);
+//    	findViewById(R.id.p2b4).setVisibility(View.INVISIBLE);
+//    	findViewById(R.id.p2b5).setVisibility(View.INVISIBLE);
     }
     
     
@@ -150,17 +139,24 @@ public class Main extends ActionBarActivity {
 
         View view = this.getWindow().getDecorView();
         view.setBackgroundColor(Color.BLACK);
-        setButtonColor((Button)findViewById(R.id.p1b1), drawer.getRed());
-        setButtonColor((Button)findViewById(R.id.p1b2), drawer.getBlue());
-        setButtonColor((Button)findViewById(R.id.p1b3), drawer.getYellow());
-        setButtonColor((Button)findViewById(R.id.p1b4), drawer.getGreen());
-        setButtonColor((Button)findViewById(R.id.p1b5), drawer.getTeal());
         
-        setButtonColor((Button)findViewById(R.id.p2b1), drawer.getRed());
-        setButtonColor((Button)findViewById(R.id.p2b2), drawer.getBlue());
-        setButtonColor((Button)findViewById(R.id.p2b3), drawer.getYellow());
-        setButtonColor((Button)findViewById(R.id.p2b4), drawer.getGreen());
-        setButtonColor((Button)findViewById(R.id.p2b5), drawer.getTeal());
+        for(int i = 0; i < 5; i++) {
+        	setButtonColor(buttonsP1[i], drawer.getColor(game.getColors()[i]));
+        }
+        for(int i = 0; i < 5; i++) {
+        	setButtonColor(buttonsP2[i], drawer.getColor(game.getColors()[i]));
+        }
+//        setButtonColor((Button)findViewById(R.id.p1b1), drawer.getRed());
+//        setButtonColor((Button)findViewById(R.id.p1b2), drawer.getBlue());
+//        setButtonColor((Button)findViewById(R.id.p1b3), drawer.getYellow());
+//        setButtonColor((Button)findViewById(R.id.p1b4), drawer.getGreen());
+//        setButtonColor((Button)findViewById(R.id.p1b5), drawer.getPurple());
+//        
+//        setButtonColor((Button)findViewById(R.id.p2b1), drawer.getRed());
+//        setButtonColor((Button)findViewById(R.id.p2b2), drawer.getBlue());
+//        setButtonColor((Button)findViewById(R.id.p2b3), drawer.getYellow());
+//        setButtonColor((Button)findViewById(R.id.p2b4), drawer.getGreen());
+//        setButtonColor((Button)findViewById(R.id.p2b5), drawer.getPurple());
         
     }
     
@@ -189,4 +185,20 @@ public class Main extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    private void initPlayerButtons() {
+    	buttonsP1 = new Button[5];
+    	buttonsP1[0] = (Button)findViewById(R.id.p1b1);
+    	buttonsP1[1] = (Button)findViewById(R.id.p1b2);
+    	buttonsP1[2] = (Button)findViewById(R.id.p1b3);
+    	buttonsP1[3] = (Button)findViewById(R.id.p1b4);
+    	buttonsP1[4] = (Button)findViewById(R.id.p1b5);
+    	buttonsP2 = new Button[5];
+    	buttonsP2[0] = (Button)findViewById(R.id.p2b1);
+    	buttonsP2[1] = (Button)findViewById(R.id.p2b2);
+    	buttonsP2[2] = (Button)findViewById(R.id.p2b3);
+    	buttonsP2[3] = (Button)findViewById(R.id.p2b4);
+    	buttonsP2[4] = (Button)findViewById(R.id.p2b5);
+    }
+    
 }

@@ -228,6 +228,10 @@ public class Game {
 		return this.p2pts;
 	}
 	
+	public char[] getColors() {
+		return this.colors;
+	}
+	
 	private class Dot {
 		private int i;
 		private int j;
