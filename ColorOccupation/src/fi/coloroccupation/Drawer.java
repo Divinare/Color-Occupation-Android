@@ -32,9 +32,10 @@ public class Drawer extends View {
 
 		int dSide = 37; // how much pixels away from left/right side
 		int dTop = 200; // how much pixels away from top
+		int tileSize = 30;
 		for (int i = 0; i < gameboard.length; i++) {
-			int row = i * 25;
-			int column = i * 25 + 25;
+			int row = i * tileSize;
+			int column = i * tileSize + tileSize;
 			for (int j = 0; j < gameboard[0].length; j++) {
 				if (gameboard[i][j] == 'g') {
 					paint.setColor(Color.parseColor(this.green));
@@ -47,7 +48,7 @@ public class Drawer extends View {
 				} else if (gameboard[i][j] == 'p') {
 					paint.setColor(Color.parseColor(this.purple));
 				}
-				canvas.drawRect(dSide + j * 25, dTop + row, dSide + j * 25 + 25, dTop + column, paint);
+				canvas.drawRect(dSide + j * tileSize, dTop + row, dSide + j * tileSize + tileSize, dTop + column, paint);
 			}
 		}
 	}

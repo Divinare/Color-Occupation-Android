@@ -3,32 +3,38 @@ package fi.coloroccupation;
 import java.util.ArrayList;
 import java.util.Random;
 
+import android.util.Log;
+
 public class Game {
 	
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private GameOptions options;
+	
 	private char[][] gameboard; // y = yellow, b = blue, g = green, r = red, p = purple
-	private char[] colors;
-	private String turn = "player1";
+	private String turn = "p1";
 	private double p1pts = 0;
 	private double p2pts = 0;
-	private int[] p1StartCoords = new int[2];
-	private int[] p2StartCoords = new int[2];
 	
 	Random random = new Random();
 	
 	
-	public Game(char... chars) {
-		initColors(chars);
-		this.gameboard = initGameboard(45,40);
-		
+	public Game(GameOptions options) {
+		this.options = options;
+		this.gameboard = initGameboard(38,38);
+		this.players.add(new Player(this.gameboard.length-1, this.gameboard[0].length-1));
+		this.players.add(new Player(0,0));
+		initPlayerColors();
 	}
 	
-	public void playTurn(char color) {
-		if(this.turn.equals("player1")) {
+	public void playTurn(char color) {	
+		if(this.turn.equals("p1")) {
 			changeColors(gameboard.length-1, gameboard[0].length-1, color);
-			this.turn = "player2";
+			players.get(0).setColor(color);
+			this.turn = "p2";
 		} else {
 			changeColors(0, 0, color);
-			this.turn = "player1";
+			players.get(1).setColor(color);
+			this.turn = "p1";
 		}
 		this.p1pts = calcPoints(gameboard.length-1, gameboard[0].length-1);
 		this.p2pts = calcPoints(0,0);
@@ -194,17 +200,7 @@ public class Game {
 	public char[][] getGameboard() {
 		return this.gameboard;
 	}
-	
-	private void initColors(char... chars) {
-		this.colors = new char[chars.length];
-		int index = 0;
-		for(int i : chars) {
-			
-			this.colors[index] = chars[index];
-			index++;
-		}
-	}
-	
+		
 	public char[][] initGameboard(int height, int width) {
 		char[][] gameboard = new char[height][width];
 		for(int i = 0; i < gameboard.length; i++) {
@@ -216,17 +212,14 @@ public class Game {
 	}
 	
 	private char randomizeLetter() {
-		int randomIndex = random.nextInt(this.colors.length);
-		return this.colors[randomIndex];
+		int randomIndex = random.nextInt(this.options.getColors().length);
+		return this.options.getColors()[randomIndex];
 	}
 	
-	public void setP1StartCoords(int p1StartX, int p1StartY) {
-		this.p1StartCoords[0] = p1StartX;
-		this.p1StartCoords[1] = p1StartY;
-	}
-	public void setP2StartCoords(int p2StartX, int p2StartY) {
-		this.p2StartCoords[0] = p2StartX;
-		this.p2StartCoords[1] = p2StartY;
+	public void initPlayerColors() {
+		for(Player p : this.players) {
+			p.initColor(this.gameboard);
+		}
 	}
 	
 	
@@ -240,18 +233,11 @@ public class Game {
 	public double getP2pts() {
 		return this.p2pts;
 	}
-	
-	public char[] getColors() {
-		return this.colors;
+		
+	public ArrayList<Player> getPlayers() {
+		return this.players;
 	}
-	
-	public char getPlayer1Color() {
-		return this.gameboard[this.p1StartCoords[0]][this.p1StartCoords[1]];
-	}
-	public char getPlayer2Color() {
-		return this.gameboard[this.p2StartCoords[0]][this.p2StartCoords[1]];
-	}	
-	
+		
 	private class Dot {
 		private int i;
 		private int j;

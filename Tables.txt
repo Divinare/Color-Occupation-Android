@@ -1,0 +1,19 @@
+Main
+-> Game
+-> GameOptions
+-> Drawer
+
+Game
+-> GameOptions
+-> <List>Players
+- gameboard
+- turn
+- p1pts
+- p2pts
+
+GameOptions
+-> Player
+
+Player
+
+Drawer
