@@ -73,31 +73,17 @@ public class Main extends ActionBarActivity {
      	   }
      	});
     }
-    
-    
-    
   
     private void showPlayer1Buttons(char previouslyPressedButton) {
     	for(int i = 0; i < 5; i++) {
     		showOrHidePlayerButton(buttonsP1[i], previouslyPressedButton, game.getColors()[i]);
     	}
-//    	showOrHidePlayerButton(findViewById(R.id.p1b1), previouslyPressedButton, 'r');
-//    	showOrHidePlayerButton(findViewById(R.id.p1b2), previouslyPressedButton, 'b');
-//    	showOrHidePlayerButton(findViewById(R.id.p1b3), previouslyPressedButton, 'y');
-//    	showOrHidePlayerButton(findViewById(R.id.p1b4), previouslyPressedButton, 'g');
-//    	showOrHidePlayerButton(findViewById(R.id.p1b5), previouslyPressedButton, 'p');
     }
     
     private void showPlayer2Buttons(char previouslyPressedButton) {
     	for(int i = 0; i < 5; i++) {
     		showOrHidePlayerButton(buttonsP2[i], previouslyPressedButton, game.getColors()[i]);
     	}
-//    	showOrHidePlayerButton(findViewById(R.id.p2b1), previouslyPressedButton, 'r');
-//    	showOrHidePlayerButton(findViewById(R.id.p2b2), previouslyPressedButton, 'b');
-//    	showOrHidePlayerButton(findViewById(R.id.p2b3), previouslyPressedButton, 'y');
-//    	showOrHidePlayerButton(findViewById(R.id.p2b4), previouslyPressedButton, 'g');
-//    	showOrHidePlayerButton(findViewById(R.id.p2b5), previouslyPressedButton, 'p');
-    	
     }
     
     private void showOrHidePlayerButton(Button button, char previouslyPressedButton, char buttonColor) {
@@ -112,61 +98,29 @@ public class Main extends ActionBarActivity {
     	for(int i = 0; i < 5; i++) {
     		buttonsP1[i].setVisibility(View.INVISIBLE);
     	}
-    	
-//    	findViewById(R.id.p1b1).setVisibility(View.INVISIBLE);
-//    	findViewById(R.id.p1b2).setVisibility(View.INVISIBLE);
-//    	findViewById(R.id.p1b3).setVisibility(View.INVISIBLE);
-//    	findViewById(R.id.p1b4).setVisibility(View.INVISIBLE);
-//    	findViewById(R.id.p1b5).setVisibility(View.INVISIBLE);
     }
     
     private void hidePlayer2Buttons() {
     	for(int i = 0; i < 5; i++) {
     		buttonsP2[i].setVisibility(View.INVISIBLE);
     	}
-//    	findViewById(R.id.p2b1).setVisibility(View.INVISIBLE);
-//    	findViewById(R.id.p2b2).setVisibility(View.INVISIBLE);
-//    	findViewById(R.id.p2b3).setVisibility(View.INVISIBLE);
-//    	findViewById(R.id.p2b4).setVisibility(View.INVISIBLE);
-//    	findViewById(R.id.p2b5).setVisibility(View.INVISIBLE);
     }
-    
-    
-  
-    
 
     private void setColors() {
-
         View view = this.getWindow().getDecorView();
         view.setBackgroundColor(Color.BLACK);
-        
         for(int i = 0; i < 5; i++) {
         	setButtonColor(buttonsP1[i], drawer.getColor(game.getColors()[i]));
         }
         for(int i = 0; i < 5; i++) {
         	setButtonColor(buttonsP2[i], drawer.getColor(game.getColors()[i]));
         }
-//        setButtonColor((Button)findViewById(R.id.p1b1), drawer.getRed());
-//        setButtonColor((Button)findViewById(R.id.p1b2), drawer.getBlue());
-//        setButtonColor((Button)findViewById(R.id.p1b3), drawer.getYellow());
-//        setButtonColor((Button)findViewById(R.id.p1b4), drawer.getGreen());
-//        setButtonColor((Button)findViewById(R.id.p1b5), drawer.getPurple());
-//        
-//        setButtonColor((Button)findViewById(R.id.p2b1), drawer.getRed());
-//        setButtonColor((Button)findViewById(R.id.p2b2), drawer.getBlue());
-//        setButtonColor((Button)findViewById(R.id.p2b3), drawer.getYellow());
-//        setButtonColor((Button)findViewById(R.id.p2b4), drawer.getGreen());
-//        setButtonColor((Button)findViewById(R.id.p2b5), drawer.getPurple());
-        
     }
     
     private void setButtonColor(Button button, String color) {
     	button.getBackground().setColorFilter(Color.parseColor(color), PorterDuff.Mode.MULTIPLY);
     }
     
-    
-    
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
