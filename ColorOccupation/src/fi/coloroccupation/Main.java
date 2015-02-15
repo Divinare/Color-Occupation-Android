@@ -37,7 +37,7 @@ public class Main extends ActionBarActivity {
                 new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT,
                                            LayoutParams.FILL_PARENT);
         addContentView(drawer, params);
-        this.options = new GameOptions(2, 5);
+        this.options = new GameOptions(2, 5, 35, 38);
         this.options.setUpColors(5);
         this.game = new Game(options);
         
@@ -53,8 +53,8 @@ public class Main extends ActionBarActivity {
         setTags();
         setColors();
         for(int i = 0; i < 3; i++) {
-        	setOnClickListeners(buttonsP1[i]);
-        	setOnClickListeners(buttonsP2[i]);
+        	setOnClickListeners(buttonsP1[i], "p1");
+        	setOnClickListeners(buttonsP2[i], "p2");
         }
     }
     
@@ -88,14 +88,14 @@ public class Main extends ActionBarActivity {
     	button.setTag(color);
     }
         
-    private void setOnClickListeners(final Button button) {
+    private void setOnClickListeners(final Button button, final String player) {
         button.setOnClickListener(new View.OnClickListener() {
      	   @Override
      	   public void onClick(View view) {
      		   int colorIndex = (Integer) button.getTag();
      		   
      		   char color = options.convertIntToChar(colorIndex);
-     		   game.playTurn(color);
+     		   game.playTurn(color, player);
      	       drawer.setGameboard(game.getGameboard());
      	       drawer.invalidate();
      	       if (game.getTurn().equals("p1")) {

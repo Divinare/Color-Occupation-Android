@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 
 public class Drawer extends View {
@@ -26,11 +27,10 @@ public class Drawer extends View {
 
 	@Override
 	public void draw(Canvas canvas) {
-
 		Paint paint = new Paint();
 		paint.setStrokeWidth(6);
 
-		int dSide = 37; // how much pixels away from left/right side
+		int dSide = 20; // how much pixels away from left/right side
 		int dTop = 200; // how much pixels away from top
 		int tileSize = 30;
 		for (int i = 0; i < gameboard.length; i++) {
@@ -45,7 +45,7 @@ public class Drawer extends View {
 					paint.setColor(Color.parseColor(this.yellow));
 				} else if (gameboard[i][j] == 'r') {
 					paint.setColor(Color.parseColor(this.red));
-				} else if (gameboard[i][j] == 'p') {
+				} else { // (gameboard[i][j] == 'p') {
 					paint.setColor(Color.parseColor(this.purple));
 				}
 				canvas.drawRect(dSide + j * tileSize, dTop + row, dSide + j * tileSize + tileSize, dTop + column, paint);
@@ -74,21 +74,5 @@ public class Drawer extends View {
 			return this.purple;
 		}
 	}
-
-//	public String getRed() {
-//		return this.red;
-//	}
-//	public String getBlue() {
-//		return this.blue;
-//	}
-//	public String getGreen(){
-//		return this.green;
-//	}
-//	public String getYellow() {
-//		return this.yellow;
-//	}
-//	public String getPurple() {
-//		return this.purple;
-//	}
 	
 }

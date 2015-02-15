@@ -11,7 +11,7 @@ public class Game {
 	private GameOptions options;
 	
 	private char[][] gameboard; // y = yellow, b = blue, g = green, r = red, p = purple
-	private String turn = "p1";
+	private String turn = "none";
 	private double p1pts = 0;
 	private double p2pts = 0;
 	
@@ -20,21 +20,22 @@ public class Game {
 	
 	public Game(GameOptions options) {
 		this.options = options;
-		this.gameboard = initGameboard(38,38);
-		this.players.add(new Player(this.gameboard.length-1, this.gameboard[0].length-1));
+		this.players.add(new Player(options.getGameWidth()-1, options.getGameHeight()-1));
 		this.players.add(new Player(0,0));
-		initPlayerColors();
+		this.gameboard = initGameboard(options.getGameWidth(),options.getGameHeight());
 	}
 	
-	public void playTurn(char color) {	
-		if(this.turn.equals("p1")) {
+	public void playTurn(char color, String player) {
+		if(this.turn.equals("p1") || player.equals("p1")) {
 			changeColors(gameboard.length-1, gameboard[0].length-1, color);
 			players.get(0).setColor(color);
 			this.turn = "p2";
+			Log.w("p1", "color: " + color);
 		} else {
 			changeColors(0, 0, color);
 			players.get(1).setColor(color);
 			this.turn = "p1";
+			Log.w("p2", "color: " + color);
 		}
 		this.p1pts = calcPoints(gameboard.length-1, gameboard[0].length-1);
 		this.p2pts = calcPoints(0,0);
@@ -52,49 +53,20 @@ public class Game {
 		queue.add(root);
 		char oldColor = gameboard[startX][startY];
 		gameboard[startX][startY] = newColor;
+		Log.w("gameboard", "startX: " + startX + " startY: " + startY + "start color: " + gameboard[startX][startY]);
 		while(true) {
 			Dot current = queue.remove(0);
 			int i = current.getI();
 			int j = current.getJ();
-			if(isColorToCapture(i+1, j, visited, oldColor, newColor)) {
-				Dot child = new Dot(i+1, j);
-				queue.add(child);
-				visited[i+1][j] = true;
-			}
-			if(isColorToCapture(i-1, j, visited, oldColor, newColor)) {
-				Dot child = new Dot(i-1, j);
-				queue.add(child);
-				visited[i-1][j] = true;
-			}
-			if(isColorToCapture(i, j+1, visited, oldColor, newColor)) {
-				Dot child = new Dot(i, j+1);
-				queue.add(child);
-				visited[i][j+1] = true;
-			}
-			if(isColorToCapture(i, j-1, visited, oldColor, newColor)) {
-				Dot child = new Dot(i, j-1);
-				queue.add(child);
-				visited[i][j-1] = true;
-			}
-			if(isColorToCapture(i-1, j-1, visited, oldColor, newColor)) {
-				Dot child = new Dot(i-1, j-1);
-				queue.add(child);
-				visited[i-1][j-1] = true;
-			}
-			if(isColorToCapture(i+1, j+1, visited, oldColor, newColor)) {
-				Dot child = new Dot(i+1, j+1);
-				queue.add(child);
-				visited[i+1][j+1] = true;
-			}
-			if(isColorToCapture(i+1, j-1, visited, oldColor, newColor)) {
-				Dot child = new Dot(i+1, j-1);
-				queue.add(child);
-				visited[+1][j-1] = true;
-			}
-			if(isColorToCapture(i-1, j+1, visited, oldColor, newColor)) {
-				Dot child = new Dot(i-1, j+1);
-				queue.add(child);
-				visited[i-1][j+1] = true;
+
+			int[] di = {1,0,-1,0,1,-1,1,-1};
+			int[] dj = {0,1,0,-1,1,-1,-1,1};
+			for (int i = 0; i < di.length; i++) {
+				if(isColorToCapture(d[i], d[j], visited, oldColor, newColor)) {
+					Dot child = new Dot(d[i], d[j]);
+					queue.add(child);
+					visited[i][j] = true;
+				}
 			}
 			if(queue.isEmpty()) {
 				break;
@@ -106,6 +78,7 @@ public class Game {
 		if(i >= 0 && j >= 0 && i < gameboard.length && j < gameboard[0].length) {
 			if(visited[i][j] == false && gameboard[i][j] == oldColor) {
 				gameboard[i][j] = newColor;
+				Log.w("captured", "i:" + i + " j: " + j + " gameboard[i][j]: " + gameboard[i][j]);
 				return true;
 			}
 		}
@@ -124,62 +97,21 @@ public class Game {
 		Dot root = new Dot(startX, startY);
 		queue.add(root);
 		int points = 0;
-		while(true) {
-			Dot current = queue.remove(0);
-			int i = current.getI();
-			int j = current.getJ();
-			if(isPoint(i+1, j, visited, color)) {
-				Dot child = new Dot(i+1, j);
-				queue.add(child);
-				visited[i+1][j] = true;
-				points++;
-			}
-			if(isPoint(i-1, j, visited, color)) {
-				Dot child = new Dot(i-1, j);
-				queue.add(child);
-				visited[i-1][j] = true;
-				points++;
-			}
-			if(isPoint(i, j+1, visited, color)) {
-				Dot child = new Dot(i, j+1);
-				queue.add(child);
-				visited[i][j+1] = true;
-				points++;
-			}
-			if(isPoint(i, j-1, visited, color)) {
-				Dot child = new Dot(i, j-1);
-				queue.add(child);
-				visited[i][j-1] = true;
-				points++;
-			}
-			if(isPoint(i-1, j-1, visited, color)) {
-				Dot child = new Dot(i-1, j-1);
-				queue.add(child);
-				visited[i-1][j-1] = true;
-				points++;
-			}
-			if(isPoint(i+1, j+1, visited, color)) {
-				Dot child = new Dot(i+1, j+1);
-				queue.add(child);
-				visited[i+1][j+1] = true;
-				points++;
-			}
-			if(isPoint(i+1, j-1, visited, color)) {
-				Dot child = new Dot(i+1, j-1);
-				queue.add(child);
-				visited[+1][j-1] = true;
-				points++;
-			}
-			if(isPoint(i-1, j+1, visited, color)) {
-				Dot child = new Dot(i-1, j+1);
-				queue.add(child);
-				visited[i-1][j+1] = true;
-				points++;
-			}
-			if(queue.isEmpty()) {
-				break;
-			}
-		}
+	    while(true) {
+	      Dot current = queue.remove(0);
+	      int currentI = current.getI();
+	      int currentJ = current.getJ();
+	      int[] di = {1,0,-1,0,1,-1,1,-1};
+	      int[] dj = {0,1,0,-1,1,-1,-1,1};
+	      for (int i = 0; i < di.length; i++) {
+	        if(isPoint(currentI+di[i], currentJ + dj[i], visited, color)) {
+	          Dot child = new Dot(currentI+di[i], currentJ + dj[i]);
+	          queue.add(child);
+	          visited[currentI + di[i]], currentJ + dj[i]] = true;
+	          points++;
+	        }
+	      }
+	    }
 		int totalPoints = gameboard.length*gameboard[0].length;
 		float sum = (float)points/(float)totalPoints;
 		sum = sum*100;
@@ -201,27 +133,60 @@ public class Game {
 		return this.gameboard;
 	}
 		
-	public char[][] initGameboard(int height, int width) {
+	public char[][] initGameboard(int width, int height) {
+		Log.w("player coords", "p1: " + players.get(0).getX() + " " + players.get(0).getY() + " p2: " + players.get(1).getX() + " " + players.get(1).getY());
 		char[][] gameboard = new char[height][width];
 		for(int i = 0; i < gameboard.length; i++) {
 			for(int j = 0; j < gameboard[0].length; j++) {
-				gameboard[i][j] = randomizeLetter();
+				if (!isPlayerCoordinate(i, j)) {
+					gameboard[i][j] = randomizeLetter();
+				} else {
+					gameboard[i][j] = randomizeLetterPlayerTile(i, j);
+				}
 			}
 		}
 		return gameboard;
 	}
 	
+	public boolean isPlayerCoordinate(int x, int y) {
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getX() == x && players.get(i).getY() == y) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private char randomizeLetterPlayerTile(int x, int y) {
+		Player player = players.get(0);
+		for (int i = 0; i < players.size(); i ++) {
+			if (players.get(i).getX() == x && players.get(i).getY() == y) {
+				player = players.get(i);
+			}
+		}
+		char color;
+		boolean found = false;
+		while(true) {
+			int randomIndex = random.nextInt(this.options.getColors().length);
+			color = this.options.getColors()[randomIndex];
+			for(int i = 0; i < players.size(); i++) {
+				if(players.get(i).getColor() == color) {
+					player.setColor(color);
+					found = true;
+				}
+			}
+			if(!found) {
+				break;
+			}
+			found = false;
+		}
+		return color;
+	}
+	
 	private char randomizeLetter() {
 		int randomIndex = random.nextInt(this.options.getColors().length);
 		return this.options.getColors()[randomIndex];
-	}
-	
-	public void initPlayerColors() {
-		for(Player p : this.players) {
-			p.initColor(this.gameboard);
-		}
-	}
-	
+	}	
 	
 	public String getTurn() {
 		return this.turn;

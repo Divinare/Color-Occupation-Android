@@ -1,15 +1,24 @@
 package fi.coloroccupation;
 
+import android.util.Log;
+
 public class GameOptions {
 
 	private int players;
 	
 	char[] colors;
 	char[] allColors = {'r', 'b', 'g', 'y', 'p'};
+	int gameWidth;
+	int gameHeight;
 	
-	public GameOptions(int players, int colors) {
-		this.players = players;
+	public GameOptions(int players, int colors, int gameWidth, int gameHeight) {
 		
+		this.players = players;
+		this.gameWidth = gameWidth;
+		this.gameHeight = gameHeight;
+		
+
+	
 	}
 		
 	public void setUpColors(int colors) {
@@ -28,6 +37,13 @@ public class GameOptions {
 	
 	public int getPlayers() {
 		return this.players;
+	}
+	public int getGameWidth() {
+		return this.gameWidth;
+	}
+	
+	public int getGameHeight() {
+		return this.gameHeight;
 	}
 	
 	public int convertCharToInt(char color) {

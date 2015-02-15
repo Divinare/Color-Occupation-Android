@@ -2,12 +2,13 @@ package fi.coloroccupation;
 
 public class Player {
 
-	private int[] startCoords = new int[2];
+	private int x;
+	private int y;
 	private char color;
 	
 	public Player(int startX, int startY) {
-		this.startCoords[0] = startX;
-		this.startCoords[1] = startY;
+		this.x = startX;
+		this.y = startY;
 		
 		
 	}
@@ -16,15 +17,17 @@ public class Player {
 		this.color = color;
 	}
 
-	public void initColor(char[][] gameboard) {
-		this.color = gameboard[startCoords[0]][startCoords[1]];
-	}
-
 	public char getColor() {
 		return this.color;
 	}
 	
-	private int[] getStartCoords() {
-		return this.startCoords;
+	public int getX() {
+		return this.x;
+		
 	}
+	public int getY() {
+		return this.y;
+	}
+	
+
 }
